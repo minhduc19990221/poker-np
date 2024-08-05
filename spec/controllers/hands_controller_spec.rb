@@ -46,6 +46,10 @@ RSpec.describe Api::V1::HandsController, type: :controller do
       def hand_strength(hand)
         super(hand)
       end
+
+      def validate_no_duplicates_across_hands(hands)
+        super(hands)
+      end
     end
 
     describe '#validate_input' do
@@ -77,6 +81,19 @@ RSpec.describe Api::V1::HandsController, type: :controller do
     describe '#hand_strength' do
       it 'returns the correct index for a hand' do
         expect(subject.hand_strength('Straight flush')).to eq(8)
+      end
+    end
+
+    describe '#validate_no_duplicates_across_hands' do
+      let(:valid_hands) { ['H1 H13 H12 H11 H10', 'H9 C9 S9 H2 C2'] }
+      let(:invalid_hands) { ['H1 H13 H12 H11 H10', 'H1 C9 S9 H2 C2'] }
+
+      it 'does not raise an error with valid hands' do
+        expect { subject.validate_no_duplicates_across_hands(valid_hands) }.not_to raise_error
+      end
+
+      it 'raises an error with invalid hands' do
+        expect { subject.validate_no_duplicates_across_hands(invalid_hands) }.to raise_error(ApiErrors::InvalidInputError)
       end
     end
   end
