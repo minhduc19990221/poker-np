@@ -39,8 +39,8 @@ RSpec.describe Api::V1::HandsController, type: :controller do
         super(params)
       end
 
-      def validate_hand(hand, index)
-        super(hand, index)
+      def validate_hand(hand)
+        super(hand)
       end
 
       def hand_strength(hand)
@@ -66,11 +66,11 @@ RSpec.describe Api::V1::HandsController, type: :controller do
       let(:invalid_hand) { 'H1 H13 H12 H11' }
 
       it 'does not raise an error with a valid hand' do
-        expect { subject.validate_hand(valid_hand, 0) }.not_to raise_error
+        expect { subject.validate_hand(valid_hand) }.not_to raise_error
       end
 
       it 'raises an error with an invalid hand' do
-        expect { subject.validate_hand(invalid_hand, 0) }.to raise_error(ApiErrors::InvalidInputError)
+        expect { subject.validate_hand(invalid_hand) }.to raise_error(ApiErrors::InvalidInputError)
       end
     end
 
