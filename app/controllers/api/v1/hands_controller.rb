@@ -19,7 +19,6 @@ class Api::V1::HandsController < ApplicationController
   private
 
   def validate_input(params)
-    raise ApiErrors::InvalidInputError, 'No parameter is given' if params.empty?
     raise ApiErrors::InvalidInputError, 'Cards parameter is missing' unless params[:cards]
     raise ApiErrors::InvalidInputError, 'Cards must be an array' unless params[:cards].is_a?(Array)
     raise ApiErrors::InvalidInputError, 'At least one hand is required' if params[:cards].empty?
@@ -30,7 +29,7 @@ class Api::V1::HandsController < ApplicationController
     end
   end
 
-  def validate_hand(hand, _index)
+  def validate_hand(hand, index)
     raise ApiErrors::InvalidInputError, "Hand #{index + 1} must be a string" unless hand.is_a?(String)
 
     cards = hand.split
@@ -39,7 +38,7 @@ class Api::V1::HandsController < ApplicationController
     valid_ranks = %w[2 3 4 5 6 7 8 9 10 11 12 13 1]
     valid_suits = %w[S H D C]
 
-    cards.each_with_index do |card, _card_index|
+    cards.each_with_index do |card, card_index|
       suit = card[0]
       rank = card[1..-1]
       unless valid_suits.include?(suit) && valid_ranks.include?(rank)
