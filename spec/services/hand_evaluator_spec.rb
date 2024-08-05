@@ -1,60 +1,60 @@
 require 'rails_helper'
 
 RSpec.describe HandEvaluator, type: :service do
-  let(:straight_flush_hand) { "H1 H2 H3 H4 H5" }
-  let(:four_of_a_kind_hand) { "H1 D1 S1 C1 H2" }
-  let(:full_house_hand) { "H1 D1 S1 H2 D2" }
-  let(:flush_hand) { "H1 H3 H5 H7 H9" }
-  let(:straight_hand) { "H1 D2 S3 C4 H5" }
-  let(:three_of_a_kind_hand) { "H1 D1 S1 H2 H3" }
-  let(:two_pair_hand) { "H1 D1 H2 D2 H3" }
-  let(:one_pair_hand) { "H1 D1 H2 H3 H4" }
-  let(:high_card_hand) { "H1 D3 S5 C7 H9" }
+  let(:straight_flush_hand) { 'H1 H2 H3 H4 H5' }
+  let(:four_of_a_kind_hand) { 'H1 D1 S1 C1 H2' }
+  let(:full_house_hand) { 'H1 D1 S1 H2 D2' }
+  let(:flush_hand) { 'H1 H3 H5 H7 H9' }
+  let(:straight_hand) { 'H1 D2 S3 C4 H5' }
+  let(:three_of_a_kind_hand) { 'H1 D1 S1 H2 H3' }
+  let(:two_pair_hand) { 'H1 D1 H2 D2 H3' }
+  let(:one_pair_hand) { 'H1 D1 H2 H3 H4' }
+  let(:high_card_hand) { 'H1 D3 S5 C7 H9' }
 
   describe '#evaluate' do
     it 'returns "Straight flush" for a straight flush hand' do
       evaluator = HandEvaluator.new(straight_flush_hand)
-      expect(evaluator.evaluate).to eq("Straight flush")
+      expect(evaluator.evaluate).to eq('Straight flush')
     end
 
     it 'returns "Four of a kind" for a four of a kind hand' do
       evaluator = HandEvaluator.new(four_of_a_kind_hand)
-      expect(evaluator.evaluate).to eq("Four of a kind")
+      expect(evaluator.evaluate).to eq('Four of a kind')
     end
 
     it 'returns "Full house" for a full house hand' do
       evaluator = HandEvaluator.new(full_house_hand)
-      expect(evaluator.evaluate).to eq("Full house")
+      expect(evaluator.evaluate).to eq('Full house')
     end
 
     it 'returns "Flush" for a flush hand' do
       evaluator = HandEvaluator.new(flush_hand)
-      expect(evaluator.evaluate).to eq("Flush")
+      expect(evaluator.evaluate).to eq('Flush')
     end
 
     it 'returns "Straight" for a straight hand' do
       evaluator = HandEvaluator.new(straight_hand)
-      expect(evaluator.evaluate).to eq("Straight")
+      expect(evaluator.evaluate).to eq('Straight')
     end
 
     it 'returns "Three of a kind" for a three of a kind hand' do
       evaluator = HandEvaluator.new(three_of_a_kind_hand)
-      expect(evaluator.evaluate).to eq("Three of a kind")
+      expect(evaluator.evaluate).to eq('Three of a kind')
     end
 
     it 'returns "Two pair" for a two pair hand' do
       evaluator = HandEvaluator.new(two_pair_hand)
-      expect(evaluator.evaluate).to eq("Two pair")
+      expect(evaluator.evaluate).to eq('Two pair')
     end
 
     it 'returns "One pair" for a one pair hand' do
       evaluator = HandEvaluator.new(one_pair_hand)
-      expect(evaluator.evaluate).to eq("One pair")
+      expect(evaluator.evaluate).to eq('One pair')
     end
 
     it 'returns "High card" for a high card hand' do
       evaluator = HandEvaluator.new(high_card_hand)
-      expect(evaluator.evaluate).to eq("High card")
+      expect(evaluator.evaluate).to eq('High card')
     end
   end
 
