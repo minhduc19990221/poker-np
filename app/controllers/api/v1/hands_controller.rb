@@ -37,7 +37,9 @@ class Api::V1::HandsController < ApplicationController
       }
     end
 
-    render json: { result: result, error: errors }
+    response = { result: result }
+    response[:error] = errors unless errors.empty?
+    render json: response
   end
 
   private
