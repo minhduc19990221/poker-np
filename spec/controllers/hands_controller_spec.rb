@@ -5,7 +5,7 @@ RSpec.describe Api::V1::HandsController, type: :controller do
     context 'with valid parameters' do
       let(:valid_params) do
         {
-          cards: ["H1 H13 H12 H11 H10", "H9 C9 S9 H2 C2", "C13 D12 C11 H8 H7"]
+          cards: ['H1 H13 H12 H11 H10', 'H9 C9 S9 H2 C2', 'C13 D12 C11 H8 H7']
         }
       end
 
@@ -49,7 +49,7 @@ RSpec.describe Api::V1::HandsController, type: :controller do
     end
 
     describe '#validate_input' do
-      let(:valid_params) { { cards: ["H1 H13 H12 H11 H10"] } }
+      let(:valid_params) { { cards: ['H1 H13 H12 H11 H10'] } }
       let(:invalid_params) { { cards: [] } }
 
       it 'does not raise an error with valid parameters' do
@@ -62,8 +62,8 @@ RSpec.describe Api::V1::HandsController, type: :controller do
     end
 
     describe '#validate_hand' do
-      let(:valid_hand) { "H1 H13 H12 H11 H10" }
-      let(:invalid_hand) { "H1 H13 H12 H11" }
+      let(:valid_hand) { 'H1 H13 H12 H11 H10' }
+      let(:invalid_hand) { 'H1 H13 H12 H11' }
 
       it 'does not raise an error with a valid hand' do
         expect { subject.validate_hand(valid_hand, 0) }.not_to raise_error
