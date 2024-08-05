@@ -9,25 +9,15 @@ class HandEvaluator
     end
 
     def evaluate
-        if straight_flush?
-            "Straight flush"
-        elsif four_of_a_kind?
-            "Four of a kind"
-        elsif full_house?
-            "Full house"
-        elsif flush?
-            "Flush"
-        elsif straight?
-            "Straight"
-        elsif three_of_a_kind?
-            "Three of a kind"
-        elsif two_pair?
-            "Two pair"
-        elsif one_pair?
-            "One pair"
-        else
-            "High card"
-        end
+        return "Straight flush" if straight_flush?
+        return "Four of a kind" if four_of_a_kind?
+        return "Full house" if full_house?
+        return "Flush" if flush?
+        return "Straight" if straight?
+        return "Three of a kind" if three_of_a_kind?
+        return "Two pair" if two_pair?
+        return "One pair" if one_pair?
+        "High card"
     end
 
     private
@@ -59,7 +49,7 @@ class HandEvaluator
     end
 
     def two_pair?
-        ranks_count(2) == 2
+        @ranks.uniq.count { |rank| @ranks.count(rank) == 2 } == 2
     end
 
     def one_pair?
