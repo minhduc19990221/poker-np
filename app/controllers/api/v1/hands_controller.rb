@@ -3,10 +3,10 @@ class Api::V1::HandsController < ApplicationController
   def evaluate
     validate_input(params)
 
-    hands = params[:cards].map do |hand|
+    hands = params[:cards].map do |cards|
       {
-        card: hand,
-        hand: hand_strength(hand),
+        card: cards,
+        hand: HandEvaluator.new(cards).evaluate
       }
     end
 
