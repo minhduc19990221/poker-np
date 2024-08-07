@@ -87,13 +87,28 @@ RSpec.describe Api::V1::HandsController, type: :controller do
     describe '#validate_no_duplicates_across_hands' do
       let(:valid_hands) { ['H1 H13 H12 H11 H10', 'H9 C9 S9 H2 C2'] }
       let(:invalid_hands) { ['H1 H13 H12 H11 H10', 'H1 C9 S9 H2 C2'] }
-
+      let(:multiple_duplicates) { ['H1 H13 H12 H11 H10', 'H1 C9 S9 H2 C2', 'H13 D13 S13 H13 C13'] }
+      let(:no_hands) { [] }
+    
       it 'does not raise an error with valid hands' do
         expect { subject.validate_no_duplicates_across_hands(valid_hands) }.not_to raise_error
       end
-
+    
       it 'raises an error with invalid hands' do
-        expect { subject.validate_no_duplicates_across_hands(invalid_hands) }.to raise_error(ApiErrors::InvalidInputError)
+        expect { subject.validate_no_duplicates_across_hands(invalid_hands) }.to raise_error(ApiErrors::InvalidInputError, /Duplicate cards found across hands: H1/)
+      end
+    
+      it 'raises an error with multiple duplicates' do
+        expect { subject.validate_no_duplicates_across_hands(multiple_duplicates) }.to raise_error(ApiErrors::InvalidInputError, /Duplicate cards found across hands: H1, H13/)
+      end
+    
+      it 'raises an error when no hands are provided' do
+        expect { subject.validate_no_duplicates_across_hands(no_hands) }.to raise_error(ApiErrors::InvalidInputError, /No hands provided/)
+      end
+    
+      it 'does not raise an error with hands containing no duplicates' do
+        hands_with_no_duplicates = ['H1 H2 H3 H4 H5', 'C6 C7 C8 C9 C10', 'D11 D12 D13 D1 D2']
+        expect { subject.validate_no_duplicates_across_hands(hands_with_no_duplicates) }.not_to raise_error
       end
     end
   end

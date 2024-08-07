@@ -8,17 +8,17 @@ class Api::V1::HandsController < ApplicationController
 
     begin
 
-      params[:cards].each do |cards|
+      params[:cards].each do |hand|
         begin
-          validate_hand(cards)
+          validate_hand(hand)
           result << {
-            card: cards,
-            hand: HandEvaluator.new(cards).evaluate,
+            card: hand,
+            hand: HandEvaluator.new(hand).evaluate,
             best: false  # We'll update this later
           }
         rescue ApiErrors::InvalidInputError => e
           errors << {
-            card: cards,
+            card: hand,
             msg: e.message
           }
         end
@@ -61,21 +61,25 @@ class Api::V1::HandsController < ApplicationController
     valid_suits = %w(S H D C)
 
     seen_cards = Set.new
+    errors = []
+
     cards.each_with_index do |card, index|
       suit, rank = card[0], card[1..-1]
       unless valid_suits.include?(suit)
-        raise ApiErrors::InvalidInputError, "Invalid suit in card #{index + 1}. (#{card})"
+        errors << "Invalid suit in card #{index + 1}. (#{card})"
       end
       unless valid_ranks.include?(rank)
-        raise ApiErrors::InvalidInputError, "Invalid rank in card #{index + 1}. (#{card})"
+        errors << "Invalid rank in card #{index + 1}. (#{card})"
       end
 
       # Check for duplicate cards
       if seen_cards.include?(card)
-        raise ApiErrors::InvalidInputError, "Duplicate card found: #{card}"
+        errors << "Duplicate card found: #{card}"
       end
       seen_cards.add(card)
     end
+
+    raise ApiErrors::InvalidInputError, errors.join(', ') unless errors.empty?
   end
 
   def hand_strength(hand)
